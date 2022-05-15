@@ -2,9 +2,9 @@
 #include <stdio.h>
 
 /*
-    PROGRAMA LE UMA MATRIZ E CRIA UMA COPIA COM FILTRO LBP (Local Binary Patterns)
+    PROGRAMA LE UM ARQUIVO .PGM E CRIA UMA COPIA COM FILTRO LBP (Local Binary Patterns)
     O FILTRO LBP É UM DESCRITOR DE TEXTURA MUITO UTILIZADO EM ALGORIMOS DE RECONHECIMENTO DE IMAGENS.
-    O FUNICIONAMENTO DESSE FILTRO É SIMPLES: PARA CADA PIXEL DE UMA IMAGEM DE 256 NÍVEIS DE CINZA,
+    O FUNCIONAMENTO DESSE FILTRO É SIMPLES: PARA CADA PIXEL DE UMA IMAGEM DE 256 NÍVEIS DE CINZA,
     SELECIONA-SE UMA VIZINHANÇA DE 8 PIXELS.
     O VALOR LBP É ENTÃO CALCULADO PARA O PIXEL CENTRAL E ARMAZENADO NA IMAGEM DESTINO,
     QUE POSSUI AS MESMAS DIMENSÕES DA IMAGEM ORIGINAL.
@@ -17,7 +17,7 @@
 
 int calcula_ponta(int referencia, int pixel_referencia, int v1, int v2, int v3)
 {
-    // 4PIXELS
+    // QTD DE PIXLELS CALCULADOS COM ESSA FUNÇÃO: 4
 
     // CONDIÇÃO 1: VARIAVEL ESTA NA PONTA DA MATRIZ
     // (soma 3casas)
@@ -56,7 +56,7 @@ int calcula_ponta(int referencia, int pixel_referencia, int v1, int v2, int v3)
 
 int calcula_beirada(int referencia, int pixel_referencia, int v1, int v2, int v3, int v4, int v5)
 {
-    // LINHA*2 + COLUNA*2 - 4
+    // QTD DE PIXLELS CALCULADOS COM ESSA FUNÇÃO: LINHA*2 + COLUNA*2 - 4
 
     // CONDIÇÃO 2: VARIAVEL NA BEIRADA MAS NÃO NA PONTA
     // (soma 5casas)
@@ -103,6 +103,7 @@ int calcula_beirada(int referencia, int pixel_referencia, int v1, int v2, int v3
 
 int calcula_meio(int pixel_referencia, int v1, int v2, int v3, int v4, int v5, int v6, int v7, int v8)
 {   
+    // QTD DE PIXLELS CALCULADOS COM ESSA FUNÇÃO: 
     // LINHA * COLUNA - VALOR CALCULADO NAS OUTRAS FUNÇÕES
     // OU (LINHA - 2) * (COLUNA - 2)
 
@@ -154,9 +155,9 @@ int main()
 
     /*
      As duas matrizes são do tipo unsigned char para economizar memoria.
-     Criando as matrizes do tipo inteiro inicialmente funciona com matrizes pequenas
+     Criando as matrizes do tipo inteiro inicialmente funciona com aruivos pequenos
      porque o programa não aloca tanto espaço.
-     O problema ocorre quando usamos imagens muito grandes, consumindo ( coluna*linha*4 ) bytes.
+     O problema ocorre quando usamos arquivos muito grandes, consumindo ( coluna*linha*4 ) bytes.
      Usando unsigned char consegui diminuir esse número 4 vezes.
     */
     unsigned char Orig[linha][coluna];  
@@ -169,16 +170,15 @@ int main()
         exit(1);
     }
     
-    // ponteiro com o endereço original da matriz copia
+    // ponteiro com o endereço original da matriz copia.
     char *comecoCopia = Copia;
     
-    // criação dos índices
+    // criação dos índices.
     int i,j;
 
-    /*
-     variavel referencia serve como parametro na definição do pixel nas condições 1 e 2,
-     funciona com base no teclado númerico
-    */
+    // variavel referencia serve como parametro na definição do pixel nas condições 1 e 2,
+    // funciona com base no teclado númerico.
+    
     int referencia;   
 
     // leitura da matriz original
@@ -277,8 +277,8 @@ int main()
                 }
 
             // CONDIÇÃO 3: VARIAVEL NO MEIO DA MATRIZ
-            else    //condição 3 não precisa passar a variavel referencia porque todos os pontos em volta estão preenchidos
-            *Copia = calcula_meio(Orig[i][j],Orig[i-1][j-1],Orig[i-1][j],Orig[i-1][j+1],Orig[i][j-1],Orig[i][j+1],Orig[i+1][j-1],Orig[i+1][j],Orig[i+1][j+1]);
+            //condição 3 não precisa passar a variavel referencia porque todos os pontos em volta estão preenchidos
+            else *Copia = calcula_meio(Orig[i][j],Orig[i-1][j-1],Orig[i-1][j],Orig[i-1][j+1],Orig[i][j-1],Orig[i][j+1],Orig[i+1][j-1],Orig[i+1][j],Orig[i+1][j+1]);
             
             // colocando o pixel no arquivo
             fprintf(arquivo, "%d ", *Copia);
